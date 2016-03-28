@@ -36,6 +36,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
   config.fixture_path = "#{::Rails.root}/test/fixtures"
+  config.filter_run focus: true
+  config.run_all_when_everything_filtered = true
 
   config.before(:each) do
     Localization.lang = :default
@@ -214,4 +216,3 @@ module Webrat #:nodoc:
     end
   end
 end
-

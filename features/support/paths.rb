@@ -20,7 +20,7 @@ module NavigationHelpers
     when /^the new category page$/
       '/admin/categories/new'
     when /^the edit category page$/
-      '/admin/categories/new/1'
+      '/admin/categories/edit/1'
 
 
     # Add more mappings here.
