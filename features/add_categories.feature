@@ -9,9 +9,14 @@ Feature: Add Categories
 
   Scenario: Successfully add categories
     Given I am on the new category page
+    Then I should not see "fun"
     When I fill in "category_name" with "fun"
     And I fill in "category_keywords" with "friend, happy, song"
     And I fill in "category_permalink" with "something"
     And I fill in "category_description" with "cool beans"
     And I press "Save"
     Then I should be on the new category page
+    And I should see "fun"
+    And I should see "friend, happy, song"
+    And I should see "something"
+    And I should see "cool beans"
