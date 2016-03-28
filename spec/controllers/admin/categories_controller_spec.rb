@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe Admin::CategoriesController do
   render_views
@@ -18,20 +19,20 @@ describe Admin::CategoriesController do
 
   describe "test_new" do
     before(:each) do
-      get :new
+      get :new, :format => 'html'
     end
 
-    it 'should render template new' do
-      assert_template 'new'
-      assert_tag :tag => "table",
-        :attributes => { :id => "category_container" }
-    end
+      it 'should render template new' do
+        assert_template 'new'
+        assert_tag :tag => "table",
+          :attributes => { :id => "category_container" }
+      end
 
-    # it 'should have a new category' do
-    #   assigns(:category).should_not be_nil
-    #   assert assigns(:category).valid?
-    #   assigns(:categories).should_not be_nil
-    # end
+      it 'should have a new category', :focus => true do
+        assigns(:category).should_not be_nil
+        assert assigns(:category).id.should be_nil
+        assigns(:categories).should_not be_nil
+      end
   end
 
   describe "test_edit" do
