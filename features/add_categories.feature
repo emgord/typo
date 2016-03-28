@@ -9,9 +9,9 @@ Feature: Add Categories
 
   Scenario: Successfully add categories
     Given I am on the new category page
-    When I fill in "name" with "fun"
-    And I fill in "keywords" with "friend, happy, song"
-    And I fill in "permalink" with "something"
-    And I fill in "description" with "cool beans"
+    When I fill in "category_name" with "fun"
+    And I fill in "category_keywords" with "friend, happy, song"
+    And I fill in "category_permalink" with "something"
+    And I fill in "category_description" with "cool beans"
     And I press "Save"
     Then I should be on the new category page
