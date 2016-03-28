@@ -20,3 +20,4 @@ Feature: Add Categories
     And I should see "friend, happy, song"
     And I should see "something"
     And I should see "cool beans"
+    And I should have 2 categories
