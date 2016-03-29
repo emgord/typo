@@ -5,10 +5,13 @@ Feature: Merge Articles
 
   Background:
     Given the blog is set up
-    And I am logged into the admin panel
 
-  Scenario: Successfully merge articles
-    Given I have two similar articles titled Cats, Dogs
+  Scenario: Non-admin cannot merge articles
+    Given I am logged in as a contributor
+
+  Scenario: Admin can successfully merge articles
+    Given I am logged into the admin panel
+    And I have two similar articles titled Cats, Dogs
     And I am on the manage articles page
     Then I should see "Cats"
     And I should see "Dogs"
