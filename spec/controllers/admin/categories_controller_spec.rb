@@ -49,7 +49,7 @@ describe Admin::CategoriesController do
       expect(Category.all.count).to eq(original_count + 1)
       expect(flash[:notice]).to eq("Category was successfully saved.")
     end
-    it 'should not create a new category with bad input', :focus => true do
+    it 'should not create a new category with bad input' do
       original_count = Category.all.count
       post :edit, :format => 'html', :category => bad_category_params
       assert_response :redirect, :action => 'index'
