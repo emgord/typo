@@ -304,6 +304,7 @@ Given /^I have two similar articles titled (.+)$/ do |titles|
   titles.split(', ').each do |title|
     article = Article.new
     article.published = 1
+    article.user_id = 2
     article.published_at = "March 29, 2016 07:07 PM GMT+0000 (UTC)"
     article.title = title
     article.body_and_extended= "I love" + title.downcase

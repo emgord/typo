@@ -8,6 +8,13 @@ Feature: Merge Articles
 
   Scenario: Non-admin cannot merge articles
     Given I am logged in as a contributor
+    And I have two similar articles titled Cats, Dogs
+    And I am on the manage articles page
+    Then I should see "Cats"
+    And I should see "Dogs"
+    When I follow "Edit"
+    Then I should be on the edit articles page
+    And I should not see "Merge Articles"
 
   Scenario: Admin can successfully merge articles
     Given I am logged into the admin panel
