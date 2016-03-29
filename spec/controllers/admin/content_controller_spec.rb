@@ -520,7 +520,7 @@ describe Admin::ContentController do
           lambda do
             get :merge, :id => @article.id, :merge_id => article2.id
             response.should redirect_to(:action => 'index')
-            expect(Article.find(@article.id).attributes).to_not eq @product.attributes
+            expect(Article.find(@article.id).attributes).to_not eq @article.attributes
           end.should change(Article, :count)
         end
       end
@@ -688,7 +688,7 @@ describe Admin::ContentController do
         lambda do
           get :merge, :id => @article.id, :merge_id => article2.id
           response.should redirect_to(:action => 'index')
-          expect(Article.find(@article.id).attributes).to eq @product.attributes
+          expect(Article.find(@article.id).attributes).to eq @article.attributes
         end.should_not change(Article, :count)
       end
     end
