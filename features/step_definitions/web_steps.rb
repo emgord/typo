@@ -280,3 +280,15 @@ end
 Then /^I should have (\d+) categories$/ do |count|
   Category.count.should == count.to_i
 end
+
+Given /^I have two similar articles titled (.+)$/ do |titles|
+  Article.delete_all
+  titles.split(', ').each do |title|
+    article = Article.new
+    article.published = 1
+    article.published_at = "March 29, 2016 07:07 PM GMT+0000 (UTC)"
+    article.title = title
+    article.body_and_extended= "I love" + title.downcase
+    article.save
+  end
+end

@@ -8,11 +8,11 @@ Feature: Merge Articles
     And I am logged into the admin panel
 
   Scenario: Successfully merge articles
-    Given I am on the manage articles page
-    And I have two similar articles titled Cats, Dogs
+    Given I have two similar articles titled Cats, Dogs
+    And I am on the manage articles page
     Then I should see "Cats"
     And I should see "Dogs"
-    When I press "Edit"
+    When I follow "Edit"
     Then I should be on the edit articles page
     And I should see "Merge Articles"
     When I fill in "merge_with" with "3"
