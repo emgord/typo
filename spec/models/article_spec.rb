@@ -632,16 +632,17 @@ describe Article do
 
     describe "merge_with", :focus => true do
       it "should merge two articles" do
-        article1 = Factory.create(:article)
+        article1 = Factory.create(:article, :title => "First Article")
+        user1 = article1.user
         Factory.create(:comment, :article => article1)
         Factory.create(:comment, :article => article1)
         article2 = Factory.create(:article)
         Factory.create(:comment, :article => article2)
-        merge_article = article1.merge_with(article2.id)
-        expect merge_article.body.to eq "A content with several data A content with several data"
-        expect merge_article.title.to eq article1.title
-        expect merge_article.user.to eq article1.user
-        expect merge_article.comments.count.to eq (article1.comments + article2.comments)
+        article1.merge_with(article2.id)
+        expect(article1.body).to eq "A content with several data A content with several data"
+        expect(article1.title).to eq "First Article"
+        expect(article1.user).to eq user1
+        expect(article1.comments.count).to eq(3)
       end
     end
 
