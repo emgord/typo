@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'spec_helper'
+require 'pry'
 
 describe Article do
 
@@ -184,25 +185,25 @@ describe Article do
   ### XXX: Should we have a test here?
   it "test_send_multiple_pings" do
   end
-  
+
   describe "Testing redirects" do
     it "a new published article gets a redirect" do
       a = Article.create(:title => "Some title", :body => "some text", :published => true)
       a.redirects.first.should_not be_nil
       a.redirects.first.to_path.should == a.permalink_url
     end
-    
-    it "a new unpublished article should not get a redirect" do 
+
+    it "a new unpublished article should not get a redirect" do
       a = Article.create(:title => "Some title", :body => "some text", :published => false)
       a.redirects.first.should be_nil
     end
-    
+
     it "Changin a published article permalink url should only change the to redirection" do
       a = Article.create(:title => "Some title", :body => "some text", :published => true)
       a.redirects.first.should_not be_nil
       a.redirects.first.to_path.should == a.permalink_url
       r  = a.redirects.first.from_path
-      
+
       a.permalink = "some-new-permalink"
       a.save
       a.redirects.first.should_not be_nil
@@ -571,7 +572,7 @@ describe Article do
     describe "#find_by_permalink" do
       it "uses UTC to determine correct day" do
         @a.save
-        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 21, :permalink => 'a-big-article' 
+        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 21, :permalink => 'a-big-article'
         a.should == @a
       end
     end
@@ -592,7 +593,7 @@ describe Article do
     describe "#find_by_permalink" do
       it "uses UTC to determine correct day" do
         @a.save
-        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 22, :permalink => 'a-big-article' 
+        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 22, :permalink => 'a-big-article'
         a.should == @a
       end
     end
@@ -629,6 +630,20 @@ describe Article do
       end
     end
 
+    describe "merge_with", :focus => true do
+      it "should merge two articles" do
+        article1 = Factory.create(:article)
+        Factory.create(:comment, :article => article1)
+        Factory.create(:comment, :article => article1)
+        article2 = Factory.create(:article)
+        Factory.create(:comment, :article => article2)
+        merge_article = article1.merge_with(article2.id)
+        expect merge_article.body.to eq "A content with several data A content with several data"
+        expect merge_article.title.to eq article1.title
+        expect merge_article.user.to eq article1.user
+        expect merge_article.comments.count.to eq (article1.comments + article2.comments)
+      end
+    end
+
   end
 end
-

@@ -514,7 +514,7 @@ describe Admin::ContentController do
         end
       end
 
-      describe "merge articles", :focus => true do
+      describe "merge articles" do
         it 'should merge articles' do
           article2 = Factory(:article)
           lambda do
@@ -682,7 +682,7 @@ describe Admin::ContentController do
 
     end
 
-    describe "merge articles", :focus => true do
+    describe "merge articles" do
       it 'should not allow contributor to merge articles' do
         article2 = Factory(:article, :user => @user)
         lambda do
