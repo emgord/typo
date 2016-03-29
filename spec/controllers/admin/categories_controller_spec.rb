@@ -22,17 +22,40 @@ describe Admin::CategoriesController do
       get :new, :format => 'html'
     end
 
-      it 'should render template new' do
-        assert_template 'new'
-        assert_tag :tag => "table",
-          :attributes => { :id => "category_container" }
-      end
+    it 'should render template new' do
+      assert_template 'new'
+      assert_tag :tag => "table",
+        :attributes => { :id => "category_container" }
+    end
 
-      it 'should have a new category', :focus => true do
-        assigns(:category).should_not be_nil
-        assert assigns(:category).id.should be_nil
-        assigns(:categories).should_not be_nil
-      end
+    it 'should have a new category' do
+      assigns(:category).should_not be_nil
+      assert assigns(:category).id.should be_nil
+      assigns(:categories).should_not be_nil
+    end
+  end
+
+  describe "test_create" do
+    let(:good_category_params) do
+      {:name=>"hey", :keywords=>"what", :permalink=>"something", :description=>"so much fun"}
+    end
+    let(:bad_category_params) do
+      {:name=>"", :keywords=>"", :permalink=>"", :description=>""}
+    end
+    it 'should create a new category' do
+      original_count = Category.all.count
+      post :edit, :format => 'html', :category => good_category_params
+      assert_response :redirect, :action => 'index'
+      expect(Category.all.count).to eq(original_count + 1)
+      expect(flash[:notice]).to eq("Category was successfully saved.")
+    end
+    it 'should not create a new category with bad input', :focus => true do
+      original_count = Category.all.count
+      post :edit, :format => 'html', :category => bad_category_params
+      assert_response :redirect, :action => 'index'
+      expect(Category.all.count).to eq(original_count)
+      expect(flash[:error]).to eq('Category could not be saved.')
+    end
   end
 
   describe "test_edit" do
