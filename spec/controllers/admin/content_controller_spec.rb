@@ -48,7 +48,7 @@ describe Admin::ContentController do
       response.should render_template('index')
       response.should be_success
     end
-    
+
     it 'should restrict to withdrawn articles' do
       article = Factory(:article, :state => 'withdrawn', :published_at => '2010-01-01')
       get :index, :search => {:state => 'withdrawn'}
@@ -56,7 +56,7 @@ describe Admin::ContentController do
       response.should render_template('index')
       response.should be_success
     end
-  
+
     it 'should restrict to withdrawn articles' do
       article = Factory(:article, :state => 'withdrawn', :published_at => '2010-01-01')
       get :index, :search => {:state => 'withdrawn'}
@@ -514,6 +514,17 @@ describe Admin::ContentController do
         end
       end
 
+      describe "merge articles", :focus => true do
+        it 'should merge articles' do
+          article2 = Factory(:article)
+          lambda do
+            get :merge, :id => @article.id, :merge_id => article2.id
+            response.should redirect_to(:action => 'index')
+            expect(Article.find(@article.id).attributes).to_not eq @product.attributes
+          end.should change(Article, :count)
+        end
+      end
+
       it 'should allow updating body_and_extended' do
         article = @article
         post :edit, 'id' => article.id, 'article' => {
@@ -670,5 +681,18 @@ describe Admin::ContentController do
       end
 
     end
+
+    describe "merge articles", :focus => true do
+      it 'should not allow contributor to merge articles' do
+        article2 = Factory(:article, :user => @user)
+        lambda do
+          get :merge, :id => @article.id, :merge_id => article2.id
+          response.should redirect_to(:action => 'index')
+          expect(Article.find(@article.id).attributes).to eq @product.attributes
+        end.should_not change(Article, :count)
+      end
+    end
+
+
   end
 end
