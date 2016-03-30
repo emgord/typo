@@ -21,6 +21,10 @@ module NavigationHelpers
       '/admin/categories/new'
     when /^the edit category page$/
       '/admin/categories/edit/1'
+    when /^the manage articles page$/
+      '/admin/content'
+    when /^the edit articles page$/
+      '/admin/content/edit/3'
 
 
     # Add more mappings here.
