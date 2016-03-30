@@ -514,13 +514,13 @@ describe Admin::ContentController do
         end
       end
 
-      describe "merge articles" do
+      describe "merge articles", :focus => true do
         it 'should merge articles' do
           article2 = Factory(:article)
           lambda do
             get :merge, :id => @article.id, :merge_with =>{:merge_id => article2.id }
             response.should redirect_to(:action => 'index')
-            expect(Article.find(@article.id).attributes).to_not eq @article.attributes
+            expect(response.status).to eq(302)
             expect(flash[:notice]).to eq("Articles merged successfully")
           end.should change(Article, :count)
         end
@@ -528,7 +528,7 @@ describe Admin::ContentController do
           lambda do
             get :merge, :id => @article.id, :merge_with =>{:merge_id => @article.id }
             response.should redirect_to(:action => 'index')
-            expect(Article.find(@article.id).attributes).to eq @article.attributes
+            expect(response.status).to eq(302)
             expect(flash[:error]).to eq("You cannot merge an article with itself")
           end.should_not change(Article, :count)
         end
@@ -536,7 +536,7 @@ describe Admin::ContentController do
           lambda do
             get :merge, :id => @article.id, :merge_with =>{:merge_id => 111 }
             response.should redirect_to(:action => 'index')
-            expect(Article.find(@article.id).attributes).to eq @article.attributes
+            expect(response.status).to eq(302)
             expect(flash[:error]).to eq("Article not found")
           end.should_not change(Article, :count)
         end
@@ -544,7 +544,7 @@ describe Admin::ContentController do
           lambda do
             get :merge, :id => 111, :merge_with =>{:merge_id => @article.id }
             response.should redirect_to(:action => 'index')
-            expect(Article.find(@article.id).attributes).to eq @article.attributes
+            expect(response.status).to eq(302)
             expect(flash[:error]).to eq("Article not found")
           end.should_not change(Article, :count)
         end
