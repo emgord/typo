@@ -160,7 +160,6 @@ class Admin::ContentController < Admin::BaseController
     id = params[:article][:id] if params[:article] && params[:article][:id]
     @article = Article.get_or_build_article(id)
     @article.text_filter = current_user.text_filter if current_user.simple_editor?
-
     @post_types = PostType.find(:all)
     if request.post?
       if params[:article][:draft]
