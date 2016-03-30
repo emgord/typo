@@ -53,9 +53,9 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def merge
-    id = params[:id]
-    merge_id = params[:merge_with][:merge_id]
     if current_user.admin?
+      id = params[:id]
+      merge_id = params[:merge_with][:merge_id]
       if id == merge_id
         flash[:error] = _("You cannot merge an article with itself")
       elsif Article.exists?(merge_id) && Article.exists?(id)
