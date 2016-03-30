@@ -521,7 +521,32 @@ describe Admin::ContentController do
             get :merge, :id => @article.id, :merge_with =>{:merge_id => article2.id }
             response.should redirect_to(:action => 'index')
             expect(Article.find(@article.id).attributes).to_not eq @article.attributes
+            expect(flash[:notice]).to eq("Articles merged successfully")
           end.should change(Article, :count)
+        end
+        it 'raise error if merging article with itself' do
+          lambda do
+            get :merge, :id => @article.id, :merge_with =>{:merge_id => @article.id }
+            response.should redirect_to(:action => 'index')
+            expect(Article.find(@article.id).attributes).to eq @article.attributes
+            expect(flash[:error]).to eq("You cannot merge an article with itself")
+          end.should_not change(Article, :count)
+        end
+        it 'raise error if merge article does not exist' do
+          lambda do
+            get :merge, :id => @article.id, :merge_with =>{:merge_id => 111 }
+            response.should redirect_to(:action => 'index')
+            expect(Article.find(@article.id).attributes).to eq @article.attributes
+            expect(flash[:error]).to eq("Article not found")
+          end.should_not change(Article, :count)
+        end
+        it 'raise error if original article does not exist' do
+          lambda do
+            get :merge, :id => 111, :merge_with =>{:merge_id => @article.id }
+            response.should redirect_to(:action => 'index')
+            expect(Article.find(@article.id).attributes).to eq @article.attributes
+            expect(flash[:error]).to eq("Article not found")
+          end.should_not change(Article, :count)
         end
       end
 
@@ -682,13 +707,14 @@ describe Admin::ContentController do
 
     end
 
-    describe "merge articles", focus: true do
+    describe "merge articles" do
       it 'should not allow contributor to merge articles' do
         article2 = Factory(:article, :user => @user)
         lambda do
           get :merge, :id => @article.id, :merge_with =>{:merge_id => article2.id }
           response.should redirect_to(:action => 'index')
           expect(Article.find(@article.id).attributes).to eq @article.attributes
+          expect(flash[:error]).to eq("Error, you are not allowed to perform this action")
         end.should_not change(Article, :count)
       end
     end

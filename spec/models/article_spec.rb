@@ -636,10 +636,10 @@ describe Article do
         user1 = article1.user
         Factory.create(:comment, :article => article1)
         Factory.create(:comment, :article => article1)
-        article2 = Factory.create(:article)
+        article2 = Factory.create(:article, :body => "second article")
         Factory.create(:comment, :article => article2)
         article1.merge_with(article2.id)
-        expect(article1.body).to eq "A content with several data A content with several data"
+        expect(article1.body).to eq "A content with several data second article"
         expect(article1.title).to eq "First Article"
         expect(article1.user).to eq user1
         expect(article1.comments.count).to eq(3)
