@@ -518,7 +518,7 @@ describe Admin::ContentController do
         it 'should merge articles' do
           article2 = Factory(:article)
           lambda do
-            get :merge, :id => @article.id, :merge_id => article2.id
+            get :merge, :id => @article.id, :merge_with =>{:merge_id => article2.id }
             response.should redirect_to(:action => 'index')
             expect(Article.find(@article.id).attributes).to_not eq @article.attributes
           end.should change(Article, :count)
@@ -686,7 +686,7 @@ describe Admin::ContentController do
       it 'should not allow contributor to merge articles' do
         article2 = Factory(:article, :user => @user)
         lambda do
-          get :merge, :id => @article.id, :merge_id => article2.id
+          get :merge, :id => @article.id, :merge_with =>{:merge_id => article2.id }
           response.should redirect_to(:action => 'index')
           expect(Article.find(@article.id).attributes).to eq @article.attributes
         end.should_not change(Article, :count)
