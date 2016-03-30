@@ -25,10 +25,10 @@ Feature: Merge Articles
     When I follow "Edit"
     Then I should be on the edit articles page
     And I should see "Merge Articles"
-    When I fill in "merge_with" with "3"
+    When I fill in "merge_with_merge_id" with "4"
     And I press "Merge"
     Then I should be on the manage articles page
+    And I should not see "default_allow_pings"
     And I should see "Cats"
-    And I should not see "Dogs"
     When I follow "Show"
     Then I should see "I love cats I love dogs"

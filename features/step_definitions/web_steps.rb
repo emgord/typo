@@ -21,6 +21,7 @@
 
 require 'uri'
 require 'cgi'
+require 'pry'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
 
@@ -307,7 +308,7 @@ Given /^I have two similar articles titled (.+)$/ do |titles|
     article.user_id = 2
     article.published_at = "March 29, 2016 07:07 PM GMT+0000 (UTC)"
     article.title = title
-    article.body_and_extended= "I love" + title.downcase
+    article.body_and_extended= "I love " + title.downcase
     article.save
   end
 end
