@@ -630,7 +630,7 @@ describe Article do
       end
     end
 
-    describe "merge_with", :focus => true do
+    describe "merge_with" do
       it "should merge two articles" do
         article1 = Factory.create(:article, :title => "First Article")
         user1 = article1.user
